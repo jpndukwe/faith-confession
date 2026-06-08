@@ -30,8 +30,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .header .tagline { font-size: 11px; color: var(--gold-dark); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 8px; }
 .header .sub { font-size: 13px; color: var(--text2); margin-bottom: 14px; }
 .streak-bar { display: flex; gap: 8px; justify-content: center; }
-.streak-day { width: 30px; height: 30px; border-radius: 50%; background: var(--bg2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--text2); font-weight: 500; }
+.streak-day { width: 30px; height: 30px; border-radius: 50%; background: var(--bg2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--text2); font-weight: 500; transition: all 0.15s; }
 .streak-day.done { background: var(--navy); border-color: var(--navy); color: var(--gold); }
+.streak-day.today { background: var(--gold); border-color: var(--gold); color: var(--navy); font-weight: 700; }
+.day-label { font-size: 12px; color: var(--gold-dark); font-weight: 600; margin-bottom: 10px; }
 .nav { display: flex; gap: 8px; padding: 0 1rem 1rem; background: var(--bg); border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; overflow-x: auto; }
 .nav button { padding: 7px 16px; border-radius: 20px; font-size: 13px; border: 1px solid var(--border); background: var(--bg); color: var(--text2); cursor: pointer; white-space: nowrap; transition: all 0.15s; font-family: inherit; }
 .nav button.active { background: var(--navy); border-color: var(--navy); color: var(--gold); font-weight: 600; }
@@ -91,22 +93,20 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
     <h1>JP Ndukwe Ministries</h1>
     <p class="tagline">Emancipating and Empowering You</p>
     <p class="sub">Faith Confessions — Declare the Word. Stand on God's promises.</p>
+    <p class="day-label" id="day-label"></p>
     <div class="streak-bar" id="streak-bar"></div>
   </div>
-
   <nav class="nav">
     <button class="active" onclick="showTab('daily',this)">Today</button>
     <button onclick="showTab('purpose',this)">Purpose &amp; calling</button>
     <button onclick="showTab('topics',this)">Browse topics</button>
     <button onclick="showTab('ai',this)">AI confession</button>
   </nav>
-
   <div id="daily" class="section">
-    <p class="section-title">Today's declarations</p>
-    <p class="section-sub">Speak these over your life this morning.</p>
+    <p class="section-title" id="daily-title"></p>
+    <p class="section-sub">Speak these over your life today.</p>
     <div id="daily-cards"></div>
   </div>
-
   <div id="purpose" class="section" style="display:none;">
     <p class="section-title">Purpose &amp; ministry confessions</p>
     <p class="section-sub">Declarations for those called to lead, serve, and advance God's kingdom.</p>
@@ -117,13 +117,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
     <div id="purpose-cards"></div>
     <div id="ministry-cards" style="display:none;"></div>
   </div>
-
   <div id="topics" class="section" style="display:none;">
     <p class="section-title">What do you need God's Word for today?</p>
     <div class="topic-grid" id="topic-grid"></div>
     <div id="topic-confessions"></div>
   </div>
-
   <div id="ai" class="section" style="display:none;">
     <p class="section-title">Personalized Scripture declaration</p>
     <p class="section-sub">Describe your situation and the AI will craft a Scripture-based confession just for you.</p>
@@ -141,18 +139,119 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
     </div>
     <div id="ai-output"></div>
   </div>
-
   <div class="footer">
     <p><strong>JP Ndukwe Ministries</strong> &nbsp;·&nbsp; Emancipating and Empowering You</p>
   </div>
 </div>
-
-<script>
-const dailyConfessions = [
-  { badge: "badge-navy", label: "Identity", declaration: "I am who God says I am. I am the righteousness of God in Christ Jesus, chosen before the foundation of the world, established as a king and priest in His kingdom.", scripture: "2 Corinthians 5:21 · Ephesians 1:4 · Revelation 1:6" },
-  { badge: "badge-navy", label: "Healing", declaration: "By the stripes of Jesus, I am healed. Sickness and disease have no dominion over my body. My body is the temple of the Holy Spirit and it functions in divine health.", scripture: "Isaiah 53:5 · 1 Peter 2:24 · 1 Corinthians 6:19" },
-  { badge: "badge-navy", label: "Provision", declaration: "My God supplies all my needs according to His riches in glory by Christ Jesus. I am not lacking. I am the head and not the tail, above only and not beneath.", scripture: "Philippians 4:19 · Deuteronomy 28:13" },
-];
+Good. Now paste Part 2 immediately after — don't delete what you already pasted, just click at the very end and paste this:
+html<script>
+const weeklyConfessions = {
+  0: {
+    theme: "Sunday — Identity & Worship",
+    confessions: [
+      { label: "Identity", declaration: "I am who God says I am. I am the righteousness of God in Christ Jesus, chosen before the foundation of the world, established as a king and priest in His kingdom.", scripture: "2 Corinthians 5:21 · Ephesians 1:4 · Revelation 1:6" },
+      { label: "Worship", declaration: "I am created for God's glory. As I worship Him today, His presence fills every space I occupy. I am a living sacrifice, holy and acceptable to God — this is my reasonable service.", scripture: "Isaiah 43:7 · Romans 12:1 · Psalm 22:3" },
+      { label: "Identity", declaration: "I am a chosen generation, a royal priesthood, a holy nation — called to declare the praises of Him who brought me out of darkness into His marvelous light.", scripture: "1 Peter 2:9" },
+      { label: "Identity", declaration: "I am a new creation in Christ Jesus. Old things have passed away and all things have become new. I no longer live after the flesh but after the Spirit.", scripture: "2 Corinthians 5:17 · Romans 8:1" },
+      { label: "Worship", declaration: "I enter His gates with thanksgiving and His courts with praise. I bless His name for He is good. His mercy is everlasting and His truth endures to all generations.", scripture: "Psalm 100:4-5" },
+      { label: "Identity", declaration: "I am accepted in the Beloved. I am complete in Christ who is the head of all principality and power. Nothing can separate me from the love of God.", scripture: "Ephesians 1:6 · Colossians 2:10 · Romans 8:38-39" },
+      { label: "Worship", declaration: "I will bless the Lord at all times. His praise shall continually be in my mouth. My soul makes its boast in God and the humble shall hear it and be glad.", scripture: "Psalm 34:1-2" },
+      { label: "Identity", declaration: "I am sealed with the Holy Spirit of promise who is the guarantee of my inheritance. I bear the image of the heavenly and I walk worthy of the calling with which I was called.", scripture: "Ephesians 1:13-14 · 1 Corinthians 15:49 · Ephesians 4:1" },
+      { label: "Worship", declaration: "God inhabits the praises of His people. As I lift my voice today, heaven invades my circumstances. What looked impossible becomes possible in an atmosphere of praise.", scripture: "Psalm 22:3 · Acts 16:25-26" },
+      { label: "Identity", declaration: "I am fearfully and wonderfully made. God's works are marvelous and my soul knows it well. I was not formed by accident — I am His masterpiece.", scripture: "Psalm 139:14 · Ephesians 2:10" },
+    ]
+  },
+  1: {
+    theme: "Monday — Strength & Purpose",
+    confessions: [
+      { label: "Strength", declaration: "I can do all things through Christ who strengthens me. I do not grow weary in well-doing. The joy of the Lord is my strength and I go into this week fully empowered.", scripture: "Philippians 4:13 · Nehemiah 8:10 · Galatians 6:9" },
+      { label: "Purpose", declaration: "I am God's workmanship, created in Christ Jesus for good works which He prepared beforehand. I will not miss my assignment this week. My steps are ordered by the Lord.", scripture: "Ephesians 2:10 · Psalm 37:23" },
+      { label: "Provision", declaration: "My God supplies all my needs according to His riches in glory by Christ Jesus. As I work this week, His blessing overtakes me. I am the head and not the tail.", scripture: "Philippians 4:19 · Deuteronomy 28:2,13" },
+      { label: "Strength", declaration: "God has not given me a spirit of fear but of power, love, and a sound mind. I walk into every challenge this week with boldness and confidence in Christ.", scripture: "2 Timothy 1:7" },
+      { label: "Purpose", declaration: "Before I was formed in the womb God knew me, before I was born He set me apart. My work this week is not ordinary — it is a divine assignment.", scripture: "Jeremiah 1:5" },
+      { label: "Strength", declaration: "Those who wait on the Lord shall renew their strength. I mount up with wings as eagles. I run and do not grow weary. I walk and do not faint.", scripture: "Isaiah 40:31" },
+      { label: "Favor", declaration: "The Lord's favor surrounds me like a shield. I have favor with God and man. Everywhere I go this week, doors open and opportunities present themselves to me.", scripture: "Psalm 5:12 · Luke 2:52" },
+      { label: "Purpose", declaration: "I know the plans God has for me — plans to prosper me, to give me a future and a hope. Every step I take this week aligns with His divine blueprint for my life.", scripture: "Jeremiah 29:11" },
+      { label: "Strength", declaration: "The same Spirit that raised Jesus from the dead dwells in me and gives life to my mortal body. I am energized, alert, and fully alive to carry out God's will today.", scripture: "Romans 8:11" },
+      { label: "Favor", declaration: "Whatever I put my hand to this week prospers and succeeds. I am like a tree planted by rivers of water — my leaf shall not wither and everything I do shall prosper.", scripture: "Psalm 1:3 · Deuteronomy 28:8" },
+    ]
+  },
+  2: {
+    theme: "Tuesday — Healing & Wholeness",
+    confessions: [
+      { label: "Healing", declaration: "By the stripes of Jesus, I am healed. Sickness and disease have no dominion over my body. My body is the temple of the Holy Spirit and it functions in complete divine health.", scripture: "Isaiah 53:5 · 1 Peter 2:24 · 1 Corinthians 6:19" },
+      { label: "Healing", declaration: "Jesus bore my sicknesses and carried my pains. I refuse to carry what He already paid for. Every organ, every cell, every system in my body operates in supernatural health and wholeness.", scripture: "Matthew 8:17 · Isaiah 53:4 · 3 John 1:2" },
+      { label: "Peace", declaration: "I have the peace of God that passes all understanding. It guards my heart and mind in Christ Jesus. I cast every anxiety on Him because He cares for me.", scripture: "Philippians 4:7 · 1 Peter 5:7" },
+      { label: "Healing", declaration: "Jesus went about healing all who were oppressed of the devil. I am not oppressed. I am redeemed from the curse of the law and I walk in the blessing of Abraham.", scripture: "Acts 10:38 · Galatians 3:13-14" },
+      { label: "Wholeness", declaration: "God restores my soul. He leads me in paths of righteousness. I am whole — spirit, soul, and body — and I walk in the fullness of what Christ purchased for me.", scripture: "Psalm 23:3 · 1 Thessalonians 5:23" },
+      { label: "Healing", declaration: "I am redeemed from sickness, redeemed from poverty, redeemed from spiritual death. Christ has become a curse for me so that the blessing of God might overflow in every dimension of my life.", scripture: "Galatians 3:13-14 · Deuteronomy 28:1-14" },
+      { label: "Peace", declaration: "Jesus is my peace. He has broken down every wall of hostility. I am not anxious about anything. In everything, by prayer and thanksgiving, I make my requests known to God.", scripture: "Ephesians 2:14 · Philippians 4:6" },
+      { label: "Healing", declaration: "I serve a God who heals all my diseases. He forgives all my iniquities and satisfies my mouth with good things so that my youth is renewed like the eagle's.", scripture: "Psalm 103:3,5" },
+      { label: "Wholeness", declaration: "My mind is renewed by the Word of God. I am not conformed to this world. I think thoughts of life, health, and abundance. My mind is the mind of Christ.", scripture: "Romans 12:2 · 1 Corinthians 2:16" },
+      { label: "Healing", declaration: "God sent His Word and healed me and delivered me from all destruction. The Word of God is medicine to my flesh and health to all my bones.", scripture: "Psalm 107:20 · Proverbs 4:22" },
+    ]
+  },
+  3: {
+    theme: "Wednesday — Wisdom & the Word",
+    confessions: [
+      { label: "Wisdom", declaration: "I have the mind of Christ. God has given me a spirit of wisdom and revelation in the knowledge of Him. The eyes of my understanding are enlightened and I walk in divine insight.", scripture: "1 Corinthians 2:16 · Ephesians 1:17-18" },
+      { label: "Wisdom", declaration: "If I lack wisdom, I ask of God who gives liberally without reproach — and it is given to me. I make wise decisions today. I hear God's voice clearly and follow His leading.", scripture: "James 1:5 · John 10:27" },
+      { label: "Word", declaration: "The Word of God is alive and powerful in my life. It is a lamp to my feet and a light to my path. I meditate on it day and night and everything I do prospers.", scripture: "Hebrews 4:12 · Psalm 119:105 · Psalm 1:2-3" },
+      { label: "Wisdom", declaration: "Christ Jesus has become for me wisdom from God — righteousness, sanctification, and redemption. I operate in supernatural wisdom that confounds the wisdom of this world.", scripture: "1 Corinthians 1:30" },
+      { label: "Word", declaration: "I hide God's Word in my heart so that I might not sin against Him. His Word is sweeter than honey and more precious than gold. It is the standard I live by.", scripture: "Psalm 119:11 · Psalm 19:10" },
+      { label: "Wisdom", declaration: "God gives wisdom to the wise and knowledge to those who have understanding. He reveals deep and hidden things. His counsel is my compass for every decision I make.", scripture: "Daniel 2:21-22 · Proverbs 3:5-6" },
+      { label: "Word", declaration: "Heaven and earth will pass away but God's Word will never pass away. I stand on the eternal Word of God. Every promise made to me in Scripture is yes and amen in Christ.", scripture: "Matthew 24:35 · 2 Corinthians 1:20" },
+      { label: "Wisdom", declaration: "I am not wise in my own eyes. I fear the Lord and depart from evil. This brings health to my body and nourishment to my bones. My decisions are guided by the Holy Spirit.", scripture: "Proverbs 3:7-8 · John 16:13" },
+      { label: "Word", declaration: "The entrance of God's Word brings light. It gives understanding to the simple. As I immerse myself in Scripture, every confusion is dispelled and every path becomes clear.", scripture: "Psalm 119:130" },
+      { label: "Wisdom", declaration: "In all my ways I acknowledge God and He directs my paths. I lean not on my own understanding. His thoughts are higher than my thoughts and His ways are higher than my ways.", scripture: "Proverbs 3:5-6 · Isaiah 55:9" },
+    ]
+  },
+  4: {
+    theme: "Thursday — Family & Relationships",
+    confessions: [
+      { label: "Family", declaration: "As for me and my house, we will serve the Lord. My home is a sanctuary of peace, love, and the presence of God. Every member of my family is covered by the blood of Jesus.", scripture: "Joshua 24:15 · Acts 16:31" },
+      { label: "Family", declaration: "My children are a heritage from the Lord and a reward. They are taught by God and great is their peace. No weapon formed against my family shall prosper.", scripture: "Psalm 127:3 · Isaiah 54:13,17" },
+      { label: "Relationships", declaration: "I walk in love as Christ loved us. My relationships are governed by the fruit of the Spirit — love, joy, peace, patience, kindness, goodness, faithfulness, gentleness, and self-control.", scripture: "Ephesians 5:2 · Galatians 5:22-23" },
+      { label: "Family", declaration: "Salvation has come to my house. Every member of my family will come to the knowledge of Jesus Christ. I stand in the gap for my loved ones and I will not rest until they are all in.", scripture: "Acts 16:31 · Ezekiel 22:30" },
+      { label: "Marriage", declaration: "My marriage is a covenant established by God. What God has joined together, no force can put asunder. Love, honor, and the fear of God are the foundations of my home.", scripture: "Matthew 19:6 · Ephesians 5:25-28" },
+      { label: "Family", declaration: "I am a mighty man/woman of God and my children are mighty after me. My seed is blessed in the city and blessed in the field. Generational blessings flow through my family line.", scripture: "Psalm 112:1-2 · Deuteronomy 28:3-4" },
+      { label: "Relationships", declaration: "I am a peacemaker and I am called a child of God. I pursue peace with all people. My presence brings reconciliation and my words bring life to every relationship.", scripture: "Matthew 5:9 · Hebrews 12:14 · Proverbs 18:21" },
+      { label: "Family", declaration: "My household is saved, healed, delivered, and prosperous. The angel of the Lord encamps around my home. No evil shall befall us and no plague shall come near our dwelling.", scripture: "Psalm 91:10-11 · Acts 16:31" },
+      { label: "Relationships", declaration: "I am iron that sharpens iron. My relationships make me stronger and sharper. I attract God-sent relationships that propel me into purpose.", scripture: "Proverbs 27:17" },
+      { label: "Family", declaration: "My children shall be like olive plants around my table. My household is blessed and the Lord's goodness and mercy follow us all the days of our lives.", scripture: "Psalm 128:3 · Psalm 23:6" },
+    ]
+  },
+  5: {
+    theme: "Friday — Victory & Protection",
+    confessions: [
+      { label: "Victory", declaration: "I am more than a conqueror through Christ who loves me. No weapon formed against me shall prosper. Greater is He who is in me than he who is in the world.", scripture: "Romans 8:37 · Isaiah 54:17 · 1 John 4:4" },
+      { label: "Protection", declaration: "I dwell in the secret place of the Most High and abide under the shadow of the Almighty. He is my refuge and my fortress. His angels have charge over me and keep me in all my ways.", scripture: "Psalm 91:1-2,11" },
+      { label: "Victory", declaration: "God always causes me to triumph in Christ Jesus. I do not fight for victory — I fight from a position of victory. The battle belongs to the Lord and the victory is already mine.", scripture: "2 Corinthians 2:14 · 2 Chronicles 20:15" },
+      { label: "Protection", declaration: "I am protected by the armor of God. I have put on the belt of truth, the breastplate of righteousness, the shoes of peace, the shield of faith, the helmet of salvation, and the sword of the Spirit.", scripture: "Ephesians 6:13-17" },
+      { label: "Victory", declaration: "The gates of hell shall not prevail against me. I have been given authority to tread on serpents and scorpions and over all the power of the enemy. Nothing shall by any means hurt me.", scripture: "Matthew 16:18 · Luke 10:19" },
+      { label: "Protection", declaration: "A thousand may fall at my side and ten thousand at my right hand but it shall not come near me. I am shielded by God's faithfulness. Evil cannot touch me.", scripture: "Psalm 91:7,10" },
+      { label: "Victory", declaration: "I have overcome the world because the One who is in me is greater than the one who is in the world. Every fiery dart of the enemy is quenched by my shield of faith.", scripture: "1 John 5:4 · Ephesians 6:16" },
+      { label: "Protection", declaration: "The Lord is my light and my salvation — whom shall I fear? The Lord is the strength of my life — of whom shall I be afraid? I am confident and unshaken.", scripture: "Psalm 27:1" },
+      { label: "Victory", declaration: "I have been given the keys of the kingdom. Whatever I bind on earth is bound in heaven and whatever I loose on earth is loosed in heaven. I exercise kingdom authority today.", scripture: "Matthew 16:19" },
+      { label: "Protection", declaration: "No evil shall befall me nor shall any plague come near my dwelling. For the Lord has commanded His angels concerning me to guard me in all my ways.", scripture: "Psalm 91:10-11" },
+    ]
+  },
+  6: {
+    theme: "Saturday — Rest & Renewal",
+    confessions: [
+      { label: "Rest", declaration: "I enter into God's rest today. I cast every burden on Jesus and take His yoke upon me, for His yoke is easy and His burden is light. I am renewed in the spirit of my mind.", scripture: "Matthew 11:28-30 · Ephesians 4:23 · Hebrews 4:10" },
+      { label: "Renewal", declaration: "Those who wait on the Lord shall renew their strength. They shall mount up with wings like eagles. I am refreshed, restored, and re-energized by the power of the Holy Spirit.", scripture: "Isaiah 40:31 · Acts 3:19" },
+      { label: "Gratitude", declaration: "I give thanks to the Lord for He is good — His mercy endures forever. I enter His gates with thanksgiving and His courts with praise. Every blessing in my life declares His faithfulness.", scripture: "Psalm 107:1 · Psalm 100:4 · Lamentations 3:22-23" },
+      { label: "Rest", declaration: "God gives sleep to His beloved. As I rest, He works on my behalf. My mind is at peace, my body recovers, and my spirit is refreshed. Tomorrow I rise stronger.", scripture: "Psalm 127:2 · Psalm 4:8" },
+      { label: "Renewal", declaration: "God restores my soul. He leads me beside still waters and in paths of righteousness for His name's sake. I am completely renewed — spirit, soul, and body.", scripture: "Psalm 23:2-3 · 1 Thessalonians 5:23" },
+      { label: "Gratitude", declaration: "I will remember the works of the Lord and meditate on all His deeds. Every testimony of His goodness in my life is a seed for future miracles. He has been faithful and He will continue.", scripture: "Psalm 77:11-12 · Hebrews 13:8" },
+      { label: "Rest", declaration: "I have ceased from my own works and entered into God's rest. I am not striving or anxious. He who began a good work in me will carry it to completion. I trust His process.", scripture: "Hebrews 4:10 · Philippians 1:6" },
+      { label: "Renewal", declaration: "I do not look at the things which are seen but at the things which are not seen. The outward man may face pressure but the inward man is renewed day by day. I am not moved by what I see.", scripture: "2 Corinthians 4:16-18" },
+      { label: "Gratitude", declaration: "In everything I give thanks, for this is the will of God in Christ Jesus for me. Even in difficult seasons, I choose gratitude. Thanksgiving is the soil in which miracles grow.", scripture: "1 Thessalonians 5:18 · Jonah 2:9" },
+      { label: "Renewal", declaration: "The mercies of God are new every morning. Great is His faithfulness. As a new week approaches, I step into it fully renewed, fully expectant, and fully persuaded that God is for me.", scripture: "Lamentations 3:22-23 · Romans 8:31" },
+    ]
+  }
+};
 
 const purposeConfessions = [
   { declaration: "Before I was formed in my mother's womb, God knew me and set me apart. My life is not an accident — I am a deliberate act of God, created for a specific purpose in this generation.", scripture: "Jeremiah 1:5 · Psalm 139:13-16" },
@@ -160,6 +259,8 @@ const purposeConfessions = [
   { declaration: "I am called according to God's purpose. Everything working in my life is being used by God to conform me to His image and fulfill His plan for this generation.", scripture: "Romans 8:28-30" },
   { declaration: "I am a chosen generation, a royal priesthood, a holy nation, a people for God's own possession — chosen to declare the praises of Him who called me out of darkness into His marvelous light.", scripture: "1 Peter 2:9" },
   { declaration: "God has plans for me — plans to prosper me and not to harm me, plans to give me a hope and a future. His thoughts toward me outnumber the sand on the seashore.", scripture: "Jeremiah 29:11 · Psalm 40:5" },
+  { declaration: "I will not die before I fulfil my purpose. My days are in God's hands and He will ensure I accomplish everything He has ordained for my life before I depart.", scripture: "Psalm 31:15 · Acts 13:36" },
+  { declaration: "God is working in me both to will and to do of His good pleasure. My desires align with His purpose. My passion is a pointer to my assignment.", scripture: "Philippians 2:13" },
 ];
 
 const ministryConfessions = [
@@ -169,6 +270,7 @@ const ministryConfessions = [
   { declaration: "The Word of God that goes forth through my mouth will not return to Him void. It will accomplish what He pleases and prosper in the thing for which He sent it.", scripture: "Isaiah 55:11 · Hebrews 4:12" },
   { declaration: "I am a king and a priest unto God. My priestly intercession precedes and produces kingly manifestation. As I draw near to God in worship and prayer, His kingdom advances through my life and ministry.", scripture: "Revelation 1:6 · 5:10 · 1 Peter 2:9" },
   { declaration: "The Lord goes before me and makes the crooked places straight. Every door He opens no man can shut. My ministry is established by God and sustained by His grace, not by human effort.", scripture: "Isaiah 45:2 · Revelation 3:8" },
+  { declaration: "I am sent as the Father sent Jesus. As I go, signs and wonders follow. The confirmation of God's Word accompanies my ministry and lives are transformed wherever I am sent.", scripture: "John 20:21 · Mark 16:20" },
 ];
 
 const topics = [
@@ -182,14 +284,62 @@ const topics = [
   { icon: "ti-moon", label: "Peace" },
 ];
 
-// Streak tracker
-const days = ['S','M','T','W','T','F','S'];
+const topicConfessions = {
+  Identity: [
+    { declaration: "I am who God says I am. I am the righteousness of God in Christ Jesus, chosen before the foundation of the world.", scripture: "2 Corinthians 5:21 · Ephesians 1:4" },
+    { declaration: "I am a new creation in Christ Jesus. Old things have passed away and all things have become new.", scripture: "2 Corinthians 5:17" },
+    { declaration: "I am accepted in the Beloved. I am complete in Christ who is the head of all principality and power.", scripture: "Ephesians 1:6 · Colossians 2:10" },
+  ],
+  Healing: [
+    { declaration: "By the stripes of Jesus, I am healed. Sickness and disease have no dominion over my body.", scripture: "Isaiah 53:5 · 1 Peter 2:24" },
+    { declaration: "Jesus bore my sicknesses and carried my pains. I walk in complete divine health.", scripture: "Matthew 8:17 · 3 John 1:2" },
+    { declaration: "God sent His Word and healed me. The Word of God is medicine to my flesh.", scripture: "Psalm 107:20 · Proverbs 4:22" },
+  ],
+  Provision: [
+    { declaration: "My God supplies all my needs according to His riches in glory by Christ Jesus.", scripture: "Philippians 4:19" },
+    { declaration: "I am blessed in the city and blessed in the field. Whatever I put my hand to prospers.", scripture: "Deuteronomy 28:3,8" },
+    { declaration: "The Lord is my shepherd and I shall not lack any good thing.", scripture: "Psalm 23:1 · Psalm 84:11" },
+  ],
+  Protection: [
+    { declaration: "No weapon formed against me shall prosper. I am covered by the blood of Jesus.", scripture: "Isaiah 54:17" },
+    { declaration: "I dwell in the secret place of the Most High. His angels have charge over me.", scripture: "Psalm 91:1,11" },
+    { declaration: "The Lord is my light and salvation — whom shall I fear? He is the strength of my life.", scripture: "Psalm 27:1" },
+  ],
+  Family: [
+    { declaration: "As for me and my house, we will serve the Lord. My home is a sanctuary of peace and love.", scripture: "Joshua 24:15" },
+    { declaration: "My children are taught by God and great is their peace. They are mighty on the earth.", scripture: "Isaiah 54:13 · Psalm 112:2" },
+    { declaration: "Salvation has come to my house. Every member of my family shall know the Lord.", scripture: "Acts 16:31 · Jeremiah 31:34" },
+  ],
+  Wisdom: [
+    { declaration: "I have the mind of Christ. God has given me a spirit of wisdom and revelation.", scripture: "1 Corinthians 2:16 · Ephesians 1:17" },
+    { declaration: "I ask wisdom from God who gives liberally, and it is given to me. I make excellent decisions.", scripture: "James 1:5" },
+    { declaration: "In all my ways I acknowledge God and He directs my paths.", scripture: "Proverbs 3:5-6" },
+  ],
+  Victory: [
+    { declaration: "I am more than a conqueror through Christ who loves me. Greater is He who is in me.", scripture: "Romans 8:37 · 1 John 4:4" },
+    { declaration: "God always causes me to triumph in Christ Jesus. The victory is already mine.", scripture: "2 Corinthians 2:14" },
+    { declaration: "The gates of hell shall not prevail against me. I have authority over all the power of the enemy.", scripture: "Matthew 16:18 · Luke 10:19" },
+  ],
+  Peace: [
+    { declaration: "I have the peace of God that passes all understanding. It guards my heart and mind.", scripture: "Philippians 4:7" },
+    { declaration: "Jesus is my peace. I am not troubled or afraid. I rest in His perfect shalom.", scripture: "John 14:27 · Isaiah 26:3" },
+    { declaration: "I cast every anxiety on God because He cares for me. I will not be moved.", scripture: "1 Peter 5:7 · Psalm 55:22" },
+  ],
+};
+
+const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 const today = new Date().getDay();
+const todayData = weeklyConfessions[today];
+
+document.getElementById('day-label').textContent = todayData.theme;
+document.getElementById('daily-title').textContent = todayData.theme;
+
 const bar = document.getElementById('streak-bar');
-days.forEach((d, i) => {
+dayNames.forEach((d, i) => {
   const el = document.createElement('div');
-  el.className = 'streak-day' + (i < today ? ' done' : '');
-  el.textContent = d;
+  el.className = 'streak-day' + (i === today ? ' today' : i < today ? ' done' : '');
+  el.textContent = d[0];
+  el.title = d;
   bar.appendChild(el);
 });
 
@@ -215,7 +365,7 @@ function markDeclared(key, btn) {
 }
 
 function renderDaily() {
-  document.getElementById('daily-cards').innerHTML = dailyConfessions.map((c,i) => cardHTML(c,i,'','badge-navy',c.label,'')).join('');
+  document.getElementById('daily-cards').innerHTML = todayData.confessions.map((c,i) => cardHTML(c,i,'','badge-navy',c.label,'')).join('');
 }
 
 function renderPurpose() {
@@ -234,7 +384,10 @@ function renderTopics() {
 function selectTopic(label) {
   selectedTopic = label;
   renderTopics();
-  document.getElementById('topic-confessions').innerHTML = `<p style="color:#6b7280;font-size:14px;text-align:center;padding:1.5rem 0;">More ${label} declarations coming soon.</p>`;
+  const confessions = topicConfessions[label] || [];
+  document.getElementById('topic-confessions').innerHTML = confessions.length
+    ? confessions.map((c,i) => cardHTML(c,i,'','badge-navy',label,'')).join('')
+    : `<p style="color:#6b7280;font-size:14px;text-align:center;padding:1.5rem 0;">More ${label} declarations coming soon.</p>`;
 }
 
 function showTab(tab, btn) {
@@ -292,3 +445,8 @@ renderTopics();
 </script>
 </body>
 </html>
+
+
+
+
+

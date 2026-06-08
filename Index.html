@@ -1,0 +1,301 @@
+bash
+
+cat > /mnt/user-data/outputs/index.html << 'ENDOFFILE'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JP Ndukwe Ministries — Faith Confessions</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --navy: #0F2044;
+  --navy-light: #E8EDF5;
+  --gold: #C9A84C;
+  --gold-light: #F5EDD3;
+  --gold-dark: #8A6E28;
+  --bg: #ffffff;
+  --bg2: #f7f8fa;
+  --border: #e4e7ec;
+  --text: #111827;
+  --text2: #6b7280;
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg2); color: var(--text); min-height: 100vh; }
+.app { max-width: 680px; margin: 0 auto; padding: 1rem 0 3rem; }
+.header { text-align: center; padding: 2rem 1rem 1.25rem; background: var(--bg); border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
+.logo-mark { width: 52px; height: 52px; border-radius: 14px; background: var(--navy); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
+.logo-mark i { font-size: 26px; color: var(--gold); }
+.header h1 { font-size: 19px; font-weight: 600; color: var(--navy); letter-spacing: 0.02em; margin-bottom: 3px; }
+.header .tagline { font-size: 11px; color: var(--gold-dark); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 8px; }
+.header .sub { font-size: 13px; color: var(--text2); margin-bottom: 14px; }
+.streak-bar { display: flex; gap: 8px; justify-content: center; }
+.streak-day { width: 30px; height: 30px; border-radius: 50%; background: var(--bg2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--text2); font-weight: 500; }
+.streak-day.done { background: var(--navy); border-color: var(--navy); color: var(--gold); }
+.nav { display: flex; gap: 8px; padding: 0 1rem 1rem; background: var(--bg); border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; overflow-x: auto; }
+.nav button { padding: 7px 16px; border-radius: 20px; font-size: 13px; border: 1px solid var(--border); background: var(--bg); color: var(--text2); cursor: pointer; white-space: nowrap; transition: all 0.15s; font-family: inherit; }
+.nav button.active { background: var(--navy); border-color: var(--navy); color: var(--gold); font-weight: 600; }
+.section { padding: 0 1rem; }
+.section-title { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.section-sub { font-size: 13px; color: var(--text2); margin-bottom: 1.25rem; line-height: 1.6; }
+.confession-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.confession-card.purpose { border-left: 3px solid #534AB7; border-radius: 0 var(--radius) var(--radius) 0; }
+.confession-card.ministry { border-left: 3px solid var(--gold); border-radius: 0 var(--radius) var(--radius) 0; }
+.topic-badge { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; font-weight: 600; }
+.badge-navy { background: var(--navy-light); color: var(--navy); }
+.badge-gold { background: var(--gold-light); color: var(--gold-dark); }
+.badge-purple { background: #EEEDFE; color: #3C3489; }
+.declaration { font-size: 15px; color: var(--text); line-height: 1.75; margin-bottom: 10px; }
+.scripture { font-size: 12px; color: var(--text2); font-style: italic; margin-bottom: 14px; }
+.declare-btn { display: block; width: 100%; padding: 11px; background: var(--navy); color: var(--gold); border: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; cursor: pointer; transition: opacity 0.15s; font-family: inherit; }
+.declare-btn:hover { opacity: 0.88; }
+.declare-btn.declared { background: var(--bg2); color: var(--text2); border: 1px solid var(--border); }
+.declare-btn.gold { background: var(--gold); color: var(--navy); }
+.topic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+.topic-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; text-align: center; cursor: pointer; transition: border-color 0.15s; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.topic-card:hover { border-color: var(--gold); }
+.topic-card.selected { border: 2px solid var(--navy); }
+.topic-card .ti { font-size: 24px; color: var(--gold); display: block; margin-bottom: 6px; }
+.topic-card p { font-size: 13px; color: var(--text); font-weight: 600; }
+.ai-box { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.ai-box label { font-size: 13px; color: var(--text2); display: block; margin-bottom: 8px; font-weight: 500; }
+.ai-box textarea { width: 100%; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px; font-size: 14px; font-family: inherit; background: var(--bg2); color: var(--text); resize: none; line-height: 1.5; }
+.ai-box textarea:focus { outline: none; border-color: var(--gold); }
+.ai-response { background: var(--bg); border: 1px solid var(--gold); border-radius: var(--radius); padding: 1.25rem; margin-top: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.ai-response .label { font-size: 11px; color: var(--gold-dark); font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 4px; }
+.ai-response .text { font-size: 15px; line-height: 1.75; color: var(--text); }
+.ai-response .ref { font-size: 12px; color: var(--text2); font-style: italic; margin-top: 8px; }
+.loading-dots { display: flex; gap: 4px; align-items: center; padding: 8px 0; }
+.loading-dots span { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); animation: bounce 1.2s infinite; }
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce { 0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1} }
+.tab-pill { display: flex; gap: 6px; margin-bottom: 1.25rem; }
+.tab-pill button { flex: 1; padding: 9px; border-radius: var(--radius-sm); font-size: 13px; border: 1px solid var(--border); background: var(--bg2); color: var(--text2); cursor: pointer; font-family: inherit; font-weight: 500; }
+.tab-pill button.active-purpose { background: #EEEDFE; color: #3C3489; border-color: #AFA9EC; font-weight: 600; }
+.tab-pill button.active-ministry { background: var(--gold-light); color: var(--gold-dark); border-color: var(--gold); font-weight: 600; }
+.api-key-box { background: var(--gold-light); border: 1px solid var(--gold); border-radius: var(--radius); padding: 1rem; margin-bottom: 1rem; }
+.api-key-box label { font-size: 13px; color: var(--gold-dark); font-weight: 600; display: block; margin-bottom: 6px; }
+.api-key-box input { width: 100%; border: 1px solid var(--gold); border-radius: var(--radius-sm); padding: 8px 10px; font-size: 13px; font-family: inherit; background: var(--bg); color: var(--text); }
+.api-key-box input:focus { outline: none; border-color: var(--navy); }
+.api-key-box p { font-size: 11px; color: var(--gold-dark); margin-top: 6px; }
+.footer { text-align: center; padding: 2rem 1rem 1rem; margin-top: 1rem; border-top: 1px solid var(--border); }
+.footer p { font-size: 11px; color: var(--text2); }
+.footer strong { color: var(--navy); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="logo-mark"><i class="ti ti-flame"></i></div>
+    <h1>JP Ndukwe Ministries</h1>
+    <p class="tagline">Emancipating and Empowering You</p>
+    <p class="sub">Faith Confessions — Declare the Word. Stand on God's promises.</p>
+    <div class="streak-bar" id="streak-bar"></div>
+  </div>
+
+  <nav class="nav">
+    <button class="active" onclick="showTab('daily',this)">Today</button>
+    <button onclick="showTab('purpose',this)">Purpose &amp; calling</button>
+    <button onclick="showTab('topics',this)">Browse topics</button>
+    <button onclick="showTab('ai',this)">AI confession</button>
+  </nav>
+
+  <div id="daily" class="section">
+    <p class="section-title">Today's declarations</p>
+    <p class="section-sub">Speak these over your life this morning.</p>
+    <div id="daily-cards"></div>
+  </div>
+
+  <div id="purpose" class="section" style="display:none;">
+    <p class="section-title">Purpose &amp; ministry confessions</p>
+    <p class="section-sub">Declarations for those called to lead, serve, and advance God's kingdom.</p>
+    <div class="tab-pill">
+      <button class="active-purpose" onclick="showPurposeTab('purpose-cards',this,'active-purpose')"><i class="ti ti-target"></i> God's purpose for my life</button>
+      <button onclick="showPurposeTab('ministry-cards',this,'active-ministry')"><i class="ti ti-building-church"></i> My ministry &amp; calling</button>
+    </div>
+    <div id="purpose-cards"></div>
+    <div id="ministry-cards" style="display:none;"></div>
+  </div>
+
+  <div id="topics" class="section" style="display:none;">
+    <p class="section-title">What do you need God's Word for today?</p>
+    <div class="topic-grid" id="topic-grid"></div>
+    <div id="topic-confessions"></div>
+  </div>
+
+  <div id="ai" class="section" style="display:none;">
+    <p class="section-title">Personalized Scripture declaration</p>
+    <p class="section-sub">Describe your situation and the AI will craft a Scripture-based confession just for you.</p>
+    <div class="api-key-box">
+      <label><i class="ti ti-key"></i> Enter your Anthropic API Key</label>
+      <input type="password" id="api-key" placeholder="sk-ant-..." />
+      <p>Your key is never stored or sent anywhere except directly to Anthropic.</p>
+    </div>
+    <div class="ai-box">
+      <label>What do you need to declare over today?</label>
+      <textarea id="ai-input" rows="3" placeholder="e.g. I'm stepping into a new ministry season and need boldness to preach without compromise..."></textarea>
+      <button class="declare-btn" style="margin-top:10px;" onclick="generateConfession()">
+        <i class="ti ti-sparkles"></i> Generate my confession
+      </button>
+    </div>
+    <div id="ai-output"></div>
+  </div>
+
+  <div class="footer">
+    <p><strong>JP Ndukwe Ministries</strong> &nbsp;·&nbsp; Emancipating and Empowering You</p>
+  </div>
+</div>
+
+<script>
+const dailyConfessions = [
+  { badge: "badge-navy", label: "Identity", declaration: "I am who God says I am. I am the righteousness of God in Christ Jesus, chosen before the foundation of the world, established as a king and priest in His kingdom.", scripture: "2 Corinthians 5:21 · Ephesians 1:4 · Revelation 1:6" },
+  { badge: "badge-navy", label: "Healing", declaration: "By the stripes of Jesus, I am healed. Sickness and disease have no dominion over my body. My body is the temple of the Holy Spirit and it functions in divine health.", scripture: "Isaiah 53:5 · 1 Peter 2:24 · 1 Corinthians 6:19" },
+  { badge: "badge-navy", label: "Provision", declaration: "My God supplies all my needs according to His riches in glory by Christ Jesus. I am not lacking. I am the head and not the tail, above only and not beneath.", scripture: "Philippians 4:19 · Deuteronomy 28:13" },
+];
+
+const purposeConfessions = [
+  { declaration: "Before I was formed in my mother's womb, God knew me and set me apart. My life is not an accident — I am a deliberate act of God, created for a specific purpose in this generation.", scripture: "Jeremiah 1:5 · Psalm 139:13-16" },
+  { declaration: "I am God's workmanship, created in Christ Jesus for good works which He prepared beforehand for me to walk in. My steps are ordered by the Lord and I will not miss my assignment.", scripture: "Ephesians 2:10 · Psalm 37:23" },
+  { declaration: "I am called according to God's purpose. Everything working in my life is being used by God to conform me to His image and fulfill His plan for this generation.", scripture: "Romans 8:28-30" },
+  { declaration: "I am a chosen generation, a royal priesthood, a holy nation, a people for God's own possession — chosen to declare the praises of Him who called me out of darkness into His marvelous light.", scripture: "1 Peter 2:9" },
+  { declaration: "God has plans for me — plans to prosper me and not to harm me, plans to give me a hope and a future. His thoughts toward me outnumber the sand on the seashore.", scripture: "Jeremiah 29:11 · Psalm 40:5" },
+];
+
+const ministryConfessions = [
+  { declaration: "The Spirit of the Lord is upon me because He has anointed me to preach the gospel. I go in the power of the Holy Spirit and my ministry produces lasting fruit that remains.", scripture: "Luke 4:18 · Isaiah 61:1 · John 15:16" },
+  { declaration: "I am a faithful steward of the grace of God given to me. The gifts and calling of God on my life are irrevocable and I walk in them with humility and boldness.", scripture: "1 Peter 4:10 · Romans 11:29" },
+  { declaration: "God who began a good work in my ministry will carry it on to completion. I will not grow weary in well-doing, for in due season I shall reap if I faint not.", scripture: "Philippians 1:6 · Galatians 6:9" },
+  { declaration: "The Word of God that goes forth through my mouth will not return to Him void. It will accomplish what He pleases and prosper in the thing for which He sent it.", scripture: "Isaiah 55:11 · Hebrews 4:12" },
+  { declaration: "I am a king and a priest unto God. My priestly intercession precedes and produces kingly manifestation. As I draw near to God in worship and prayer, His kingdom advances through my life and ministry.", scripture: "Revelation 1:6 · 5:10 · 1 Peter 2:9" },
+  { declaration: "The Lord goes before me and makes the crooked places straight. Every door He opens no man can shut. My ministry is established by God and sustained by His grace, not by human effort.", scripture: "Isaiah 45:2 · Revelation 3:8" },
+];
+
+const topics = [
+  { icon: "ti-crown", label: "Identity" },
+  { icon: "ti-heart-rate-monitor", label: "Healing" },
+  { icon: "ti-currency-dollar", label: "Provision" },
+  { icon: "ti-shield", label: "Protection" },
+  { icon: "ti-users", label: "Family" },
+  { icon: "ti-bulb", label: "Wisdom" },
+  { icon: "ti-trophy", label: "Victory" },
+  { icon: "ti-moon", label: "Peace" },
+];
+
+// Streak tracker
+const days = ['S','M','T','W','T','F','S'];
+const today = new Date().getDay();
+const bar = document.getElementById('streak-bar');
+days.forEach((d, i) => {
+  const el = document.createElement('div');
+  el.className = 'streak-day' + (i < today ? ' done' : '');
+  el.textContent = d;
+  bar.appendChild(el);
+});
+
+const declared = new Set();
+let selectedTopic = null;
+
+function cardHTML(c, index, cardClass, badgeClass, badgeLabel, btnClass) {
+  const key = cardClass + '-' + index;
+  return `<div class="confession-card ${cardClass}">
+    <span class="topic-badge ${badgeClass}">${badgeLabel}</span>
+    <p class="declaration">"${c.declaration}"</p>
+    <p class="scripture"><i class="ti ti-book" style="font-size:12px;margin-right:4px;"></i>${c.scripture}</p>
+    <button class="declare-btn ${btnClass} ${declared.has(key)?'declared':''}" onclick="markDeclared('${key}',this)">
+      ${declared.has(key) ? '<i class="ti ti-check"></i> Declared!' : '<i class="ti ti-speakerphone"></i> I declare this!'}
+    </button>
+  </div>`;
+}
+
+function markDeclared(key, btn) {
+  declared.add(key);
+  btn.className = btn.className.replace('declared','') + ' declared';
+  btn.innerHTML = '<i class="ti ti-check"></i> Declared!';
+}
+
+function renderDaily() {
+  document.getElementById('daily-cards').innerHTML = dailyConfessions.map((c,i) => cardHTML(c,i,'','badge-navy',c.label,'')).join('');
+}
+
+function renderPurpose() {
+  document.getElementById('purpose-cards').innerHTML = purposeConfessions.map((c,i) => cardHTML(c,i,'purpose','badge-purple','Purpose','')).join('');
+  document.getElementById('ministry-cards').innerHTML = ministryConfessions.map((c,i) => cardHTML(c,i,'ministry','badge-gold','Ministry & calling','gold')).join('');
+}
+
+function renderTopics() {
+  document.getElementById('topic-grid').innerHTML = topics.map(t => `
+    <div class="topic-card ${selectedTopic===t.label?'selected':''}" onclick="selectTopic('${t.label}')">
+      <i class="ti ${t.icon}"></i>
+      <p>${t.label}</p>
+    </div>`).join('');
+}
+
+function selectTopic(label) {
+  selectedTopic = label;
+  renderTopics();
+  document.getElementById('topic-confessions').innerHTML = `<p style="color:#6b7280;font-size:14px;text-align:center;padding:1.5rem 0;">More ${label} declarations coming soon.</p>`;
+}
+
+function showTab(tab, btn) {
+  ['daily','purpose','topics','ai'].forEach(t => document.getElementById(t).style.display='none');
+  document.getElementById(tab).style.display = 'block';
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function showPurposeTab(tab, btn, activeClass) {
+  ['purpose-cards','ministry-cards'].forEach(t => document.getElementById(t).style.display='none');
+  document.getElementById(tab).style.display = 'block';
+  document.querySelectorAll('.tab-pill button').forEach(b => b.className='');
+  btn.className = activeClass;
+}
+
+async function generateConfession() {
+  const apiKey = document.getElementById('api-key').value.trim();
+  const input = document.getElementById('ai-input').value.trim();
+  if (!apiKey) { alert('Please enter your Anthropic API key first.'); return; }
+  if (!input) { alert('Please describe what you need to declare over.'); return; }
+  const output = document.getElementById('ai-output');
+  output.innerHTML = `<div class="ai-response"><div class="label"><i class="ti ti-sparkles"></i> Crafting your declaration...</div><div class="loading-dots"><span></span><span></span><span></span></div></div>`;
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-api-key": apiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 1000,
+        system: `You are a faith confession assistant for JP Ndukwe Ministries — a ministry built on emancipating and empowering people through God's Word. Generate a powerful Scripture-based faith declaration rooted in the believer's identity as a king and priest in God's kingdom.\n\nReturn ONLY valid JSON, no markdown:\n{\n  "declaration": "Bold first-person present-tense faith declaration of 2-4 sentences",\n  "scriptures": ["Reference 1", "Reference 2"],\n  "encouragement": "One short pastoral encouragement, max 20 words"\n}`,
+        messages: [{ role: "user", content: input }]
+      })
+    });
+    const data = await res.json();
+    const raw = data.content.map(i => i.text||'').join('');
+    const parsed = JSON.parse(raw.replace(/```json|```/g,'').trim());
+    output.innerHTML = `<div class="ai-response">
+      <div class="label"><i class="ti ti-sparkles"></i> Your personalized declaration</div>
+      <p class="text">"${parsed.declaration}"</p>
+      <p class="ref"><i class="ti ti-book" style="font-size:12px;margin-right:4px;"></i>${parsed.scriptures.join(' · ')}</p>
+      <p style="font-size:13px;color:var(--gold-dark);margin-top:10px;font-style:italic;">${parsed.encouragement}</p>
+      <button class="declare-btn gold" style="margin-top:12px;" onclick="this.className='declare-btn declared';this.innerHTML='<i class=\\'ti ti-check\\'></i> Declared!'">
+        <i class="ti ti-speakerphone"></i> I declare this!
+      </button>
+    </div>`;
+  } catch(e) {
+    output.innerHTML = `<div class="ai-response"><p style="color:#6b7280;font-size:14px;">Could not generate confession. Please check your API key and try again.</p></div>`;
+  }
+}
+
+renderDaily();
+renderPurpose();
+renderTopics();
+</script>
+</body>
+</html>
+ENDOFFILE
+
+
+
